@@ -14,3 +14,13 @@ export async function getAllBlogs() {
 
   return results;
 }
+
+export async function getBlogBySlug(slug) {
+  const query = `*[_type == "blog" && slug.current == $slug] {
+    ${blogFields}
+  }`;
+  const params = { slug };
+  const result = await client.fetch(query, params).then(res => res?.[0]);
+
+  return result;
+}

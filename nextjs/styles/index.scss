@@ -177,6 +177,22 @@ html, body {
     }
   }
 
+  .fj-navbar-item.fj-navbar-link {
+    color: black;
+    letter-spacing: 0.8px;
+    font-size: 18px;
+    text-transform: uppercase;
+    padding: 0;
+
+    &.active {
+      color: #dba919;
+      }
+
+      &:hover, &:focus {
+        color: #dba919;
+      }
+  }
+
   .fj-dropdown-menu {
 
     .fj-dropdown-item {
