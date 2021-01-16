@@ -4,6 +4,7 @@ import BlogHeader from 'components/BlogHeader';
 import { getBlogBySlug, getAllBlogs } from 'lib/api';
 import { Col, Row } from 'react-bootstrap';
 import BlogContent from 'components/BlogContent';
+import { urlFor } from 'lib/api';
 
 function BlogDetail({
   blog,
@@ -19,9 +20,8 @@ function BlogDetail({
             author={author}
             subtitle={subtitle}
             date={date}
-            coverImage={coverImage}
+            coverImage={urlFor(coverImage).width(920).url()}
           />
-          <hr />
           <BlogContent content={content} />
         </Col>
       </Row>

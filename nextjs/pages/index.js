@@ -11,7 +11,6 @@ export default function Home({ blogs }) {
   return (
     <PageLayout>
       <AuthorIntro />
-      <hr />
       <Row className="mb-5">
         {/* <Col md="10">
           <CardListItem />
