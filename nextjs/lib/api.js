@@ -6,7 +6,8 @@ const blogFields = `
   'slug': slug.current,
   date,
   'author': author->{name, 'avatar': avatar.asset->url},
-  'coverImage': coverImage.asset->url
+  'coverImage': coverImage.asset->url,
+  content[]{..., "asset": asset->}
 `;
 
 export async function getAllBlogs() {
