@@ -28,6 +28,18 @@ export async function getAllBlogs({ offset } = { offset: 0 }) {
   return results;
 }
 
+export async function getPaginatedBlogs(
+  { offset = 0, date = 'desc' } = { offset: 0, date: 'desc' },
+) {
+  const results = await client.fetch(
+    `*[_type == "blog"] | order(date desc){ ${blogFields}}[${offset}...${
+      offset + 3
+    }]`,
+  );
+
+  return results;
+}
+
 export async function getBlogBySlug(slug) {
   const query = `*[_type == "blog" && slug.current == $slug] {
     ${blogFields}
