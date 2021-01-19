@@ -45,6 +45,7 @@ export function BlogList({ data, filter }) {
 }
 
 export default function Home({ blogs }) {
+  console.log('blogs:', blogs);
   const [filter, setFilter] = useState({
     view: { list: 0 },
     date: { asc: 0 },
@@ -57,9 +58,11 @@ export default function Home({ blogs }) {
   }
 
   const { data, size, setSize, endOfQuery } = useGetBlogsPages({ filter });
+
   // data returned is multiple arrays inside an array of objects. Let's merge
   // that into a single array of objects
   const swrBlogData = data ? [].concat(...data) : [];
+
   console.log('swrBlogData: ', swrBlogData);
 
   return (
@@ -72,7 +75,7 @@ export default function Home({ blogs }) {
         }}
       />
       <Row className="mb-5">
-        <BlogList data={swrBlogData || blogs} filter={filter} />
+        <BlogList data={size === 1 ? blogs : swrBlogData} filter={filter} />
       </Row>
       <Button
         onClick={() => setSize(size + 1)}
