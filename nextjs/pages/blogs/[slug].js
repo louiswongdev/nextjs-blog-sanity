@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
 import { Col, Row } from 'react-bootstrap';
+import moment from 'moment';
 
 import PageLayout from 'components/PageLayout';
 import BlogHeader from 'components/BlogHeader';
@@ -31,10 +32,10 @@ function BlogDetail({ blog }) {
             title={blog?.title}
             author={blog?.author}
             subtitle={blog?.subtitle}
-            date={blog?.date}
+            date={moment(blog?.date).format('LL')}
             coverImage={urlFor(blog?.coverImage).width(920).url()}
           />
-          <BlogContent content={blog?.content} />
+          {blog.content && <BlogContent content={blog.content} />}
         </Col>
       </Row>
     </PageLayout>

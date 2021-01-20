@@ -18,8 +18,9 @@ function BlogHeader({ author, date, title, subtitle, coverImage }) {
         {title}
       </h1>
       <h2 className="blog-detail-header-subtitle mb-3">{subtitle}</h2>
-      {/* Check if contains cover image */}
-      <img className="img-fluid rounded" src={coverImage} alt="blog image" />
+      {coverImage && (
+        <img className="img-fluid rounded" src={coverImage} alt="blog image" />
+      )}
     </div>
   );
 }

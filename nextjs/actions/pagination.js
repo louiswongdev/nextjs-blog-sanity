@@ -2,11 +2,12 @@ import { useSWRInfinite } from 'swr';
 
 import { fetcher } from 'actions';
 
-export const useGetBlogsPages = ({ filter }) => {
+export const useSwrPagination = ({ filter }) => {
   const getKey = (pageIndex, previousPageData) => {
     // first page, hence no previousPageData
     if (pageIndex === 0) {
-      return `api/blogs?date=${filter.date.asc ? 'asc' : 'desc'}`;
+      // return `api/blogs?date=${filter.date.asc ? 'asc' : 'desc'}`;
+      return `/api/blogs?offset=0&date=${filter.date.asc ? 'asc' : 'desc'}`;
     }
 
     // reached the end
@@ -19,7 +20,7 @@ export const useGetBlogsPages = ({ filter }) => {
     }`;
   };
 
-  const { data, size, setSize } = useSWRInfinite(getKey, fetcher);
+  const { data, size, setSize, error } = useSWRInfinite(getKey, fetcher);
 
   // check for end of results
   let endOfQuery = false;
@@ -27,5 +28,5 @@ export const useGetBlogsPages = ({ filter }) => {
     endOfQuery = data && data[data?.length - 1].length === 0;
   }
 
-  return { data, size, setSize, endOfQuery };
+  return { data, size, setSize, endOfQuery, error };
 };

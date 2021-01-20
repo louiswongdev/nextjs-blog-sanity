@@ -18,11 +18,9 @@ export function urlFor(source) {
   return builder.image(source);
 }
 
-export async function getAllBlogs({ offset } = { offset: 0 }) {
+export async function getAllBlogs() {
   const results = await client.fetch(
-    `*[_type == "blog"] | order(date desc){ ${blogFields}}[${offset}...${
-      offset + 3
-    }]`,
+    `*[_type == "blog"] | order(date desc){ ${blogFields}}`,
   );
 
   return results;
@@ -32,7 +30,7 @@ export async function getPaginatedBlogs(
   { offset = 0, date = 'desc' } = { offset: 0, date: 'desc' },
 ) {
   const results = await client.fetch(
-    `*[_type == "blog"] | order(date desc){ ${blogFields}}[${offset}...${
+    `*[_type == "blog"] | order(date ${date}){ ${blogFields}}[${offset}...${
       offset + 3
     }]`,
   );

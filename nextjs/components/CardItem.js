@@ -1,13 +1,22 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import Link from 'next/link';
-
+import moment from 'moment';
 import { urlFor } from 'lib/api';
 
-function CardItem({ title, subtitle, date, image, author, slug, link }) {
+function CardItem({
+  title,
+  subtitle,
+  date,
+  image,
+  author,
+  slug,
+  link,
+  mode = 'normal',
+}) {
   return (
-    <Card className={`fj-card`}>
-      <div className="card-body-wrapper">
+    <Card className={`fj-card ${mode}`}>
+      <div className={`card-body-wrapper ${!image ? 'no-image' : ''}`}>
         <Card.Header className="d-flex flex-row">
           <img
             src={author?.avatar || 'https://via.placeholder.com/150'}
@@ -17,21 +26,51 @@ function CardItem({ title, subtitle, date, image, author, slug, link }) {
             alt="avatar"
           />
           <div>
-            <Card.Title className="font-weight-bold mb-1">
-              {author?.name || 'Author'}
-            </Card.Title>
-            <Card.Text className="card-date">{date}</Card.Text>
+            {mode === 'placeholder' ? (
+              <>
+                <Card.Title className="font-weight-bold mb-1">
+                  Placeholder Title
+                </Card.Title>
+                <Card.Text className="card-date">Placeholder Date</Card.Text>
+              </>
+            ) : (
+              <>
+                <Card.Title className="font-weight-bold mb-1">
+                  {author?.name || 'Author'}
+                </Card.Title>
+                <Card.Text className="card-date">
+                  {moment(date).format('LL')}
+                </Card.Text>
+              </>
+            )}
           </div>
         </Card.Header>
         <div className="view overlay">
-          <Card.Img
-            src={urlFor(image).height(300).crop('center').fit('clip').url()}
-            alt="Card image cap"
-          />
+          {mode === 'placeholder' ? (
+            <div className="image-placeholder" />
+          ) : (
+            image && (
+              <Card.Img
+                src={urlFor(image).height(300).crop('center').fit('clip').url()}
+                alt="Card image cap"
+              />
+            )
+          )}
         </div>
         <Card.Body>
-          <Card.Title className="card-main-title">{title}</Card.Title>
-          <Card.Text>{subtitle}</Card.Text>
+          {mode === 'placeholder' ? (
+            <>
+              <Card.Title className="card-main-title">
+                Placeholder Title
+              </Card.Title>
+              <Card.Text>Placeholder Subtitle</Card.Text>
+            </>
+          ) : (
+            <>
+              <Card.Title className="card-main-title">{title}</Card.Title>
+              <Card.Text>{subtitle}</Card.Text>
+            </>
+          )}
         </Card.Body>
       </div>
       {link && (

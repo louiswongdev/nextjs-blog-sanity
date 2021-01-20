@@ -2,7 +2,14 @@ import Link from 'next/link';
 import React from 'react';
 import { Card } from 'react-bootstrap';
 
-function CardListItem({ author, title, subtitle, date, link }) {
+function CardListItem({
+  author,
+  title,
+  subtitle,
+  date,
+  link,
+  mode = 'normal',
+}) {
   return (
     <Card className={`fj-card fj-card-list`}>
       <div className="card-body-wrapper">
@@ -14,16 +21,36 @@ function CardListItem({ author, title, subtitle, date, link }) {
             width="50px"
             alt="avatar"
           />
-          <div>
-            <Card.Title className="font-weight-bold mb-1">
-              {author?.name}
-            </Card.Title>
-            <Card.Text className="card-date">{date}</Card.Text>
-          </div>
+          {mode === 'placeholder' ? (
+            <div>
+              <Card.Title className="font-weight-bold mb-1">
+                Placeholder Author
+              </Card.Title>
+              <Card.Text className="card-date">Placeholder Date</Card.Text>
+            </div>
+          ) : (
+            <div>
+              <Card.Title className="font-weight-bold mb-1">
+                {author?.name}
+              </Card.Title>
+              <Card.Text className="card-date">{date}</Card.Text>
+            </div>
+          )}
         </Card.Header>
         <Card.Body>
-          <Card.Title className="card-main-title">{title}</Card.Title>
-          <Card.Text>{subtitle}</Card.Text>
+          {mode === 'placeholder' ? (
+            <>
+              <Card.Title className="card-main-title">
+                Placeholder Title
+              </Card.Title>
+              <Card.Text>Placeholder Subtitle</Card.Text>
+            </>
+          ) : (
+            <>
+              <Card.Title className="card-main-title">{title}</Card.Title>
+              <Card.Text>{subtitle}</Card.Text>
+            </>
+          )}
         </Card.Body>
       </div>
       {link && (
