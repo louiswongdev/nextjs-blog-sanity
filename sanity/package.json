@@ -8,7 +8,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "sanity start",
-    "build": "sanity build"
+    "build": "sanity build public -y"
   },
   "keywords": [
     "sanity"
@@ -21,12 +21,15 @@
     "@sanity/default-layout": "^2.1.4",
     "@sanity/default-login": "^2.1.4",
     "@sanity/desk-tool": "^2.1.4",
+    "@sanity/production-preview": "^2.1.4",
     "@sanity/vision": "^2.1.4",
     "prop-types": "^15.7",
     "react": "^17.0",
     "react-dom": "^17.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@sanity/cli": "^2.1.4"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/louiswongdev/nextjs-blog-sanity.git"
