@@ -10,6 +10,7 @@ import FilterMenu from 'components/FilterMenu';
 import { useSwrPagination } from 'actions/pagination';
 import CardItemBlank from 'components/CardItemBlank';
 import CardListItemBlank from 'components/CardListItemBlank';
+import PreviewAlert from 'components/PreviewAlert';
 
 export function BlogList({ data, filter, isLoadingMore, initialLoad }) {
   return data.map(({ title, subtitle, slug, date, coverImage, author }) =>
@@ -54,7 +55,7 @@ export function BlogList({ data, filter, isLoadingMore, initialLoad }) {
   );
 }
 
-export default function Home({ blogs }) {
+export default function Home({ blogs, preview }) {
   const [filter, setFilter] = useState({
     view: { list: 0 },
     date: { asc: 0 },
@@ -84,6 +85,7 @@ export default function Home({ blogs }) {
 
   return (
     <PageLayout>
+      {preview && <PreviewAlert />}
       <AuthorIntro />
       <FilterMenu
         filter={filter}
@@ -115,11 +117,12 @@ export default function Home({ blogs }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getStaticProps({ preview = false }) {
   const blogs = await getPaginatedBlogs({ offset: 0, date: 'desc' });
   return {
     props: {
       blogs,
+      preview,
     },
   };
 }

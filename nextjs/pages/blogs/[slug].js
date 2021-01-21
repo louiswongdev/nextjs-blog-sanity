@@ -8,12 +8,13 @@ import BlogHeader from 'components/BlogHeader';
 import { getBlogBySlug, getAllBlogs } from 'lib/api';
 import BlogContent from 'components/BlogContent';
 import { urlFor } from 'lib/api';
+import PreviewAlert from 'components/PreviewAlert';
 
 // {
 //   blog: { author, title, subtitle, date, coverImage, content },
 // }
 
-function BlogDetail({ blog }) {
+function BlogDetail({ blog, preview }) {
   const router = useRouter();
 
   if (!router.isFallback && !blog?.slug) {
@@ -28,6 +29,7 @@ function BlogDetail({ blog }) {
     <PageLayout className="blog-detail-page">
       <Row>
         <Col md={{ span: 10, offset: 1 }}>
+          {preview && <PreviewAlert />}
           <BlogHeader
             title={blog?.title}
             author={blog?.author}
@@ -42,11 +44,15 @@ function BlogDetail({ blog }) {
   );
 }
 
-export async function getStaticProps({ params }) {
-  const blog = await getBlogBySlug(params.slug);
+export async function getStaticProps({
+  params,
+  preview = false,
+  previewData,
+}) {
+  const blog = await getBlogBySlug(params.slug, preview);
 
   return {
-    props: { blog },
+    props: { blog, preview },
     revalidate: 1,
   };
 }

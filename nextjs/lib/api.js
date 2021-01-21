@@ -1,4 +1,4 @@
-import client from './sanity';
+import client, { previewClient } from './sanity';
 import imageUrlBuilder from '@sanity/image-url';
 
 const blogFields = `
@@ -12,6 +12,9 @@ const blogFields = `
 `;
 
 const builder = imageUrlBuilder(client);
+
+// check which client to call depending on if we're in draft mode or not
+const getClient = preview => (preview ? previewClient : client);
 
 // generate image urls from Sanity image records
 export function urlFor(source) {
@@ -38,12 +41,15 @@ export async function getPaginatedBlogs(
   return results;
 }
 
-export async function getBlogBySlug(slug) {
+export async function getBlogBySlug(slug, preview) {
+  const currentClient = getClient(preview);
   const query = `*[_type == "blog" && slug.current == $slug] {
     ${blogFields}
   }`;
   const params = { slug };
-  const result = await client.fetch(query, params).then(res => res?.[0]);
+  const result = await currentClient
+    .fetch(query, params)
+    .then(res => (preview ? (res?.[1] ? res?.[1] : res[0]) : res?.[0]));
 
   return result;
 }
